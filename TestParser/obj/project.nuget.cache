@@ -1,8 +1,8 @@
 {
   "version": 2,
-  "dgSpecHash": "bznr88q5EoCM3XJGtIRnYC8PLaHfUaLaObLkyCLkJZHcRf9CXvBaQ+GpUKkvSx3ZOBhygc3sKLsKKiqyIYz4fw==",
+  "dgSpecHash": "hHYGEAoXSpyeiTolLLGpPflAxBCy8yZb60SSIPYEYyYgJRbYP3y+cYoC3OxaTXvUfdw5qsqftdy3WAklo2uSRQ==",
   "success": true,
-  "projectFilePath": "D:\\ProjWork\\C#\\TestParser\\TestParser.csproj",
+  "projectFilePath": "D:\\ProjWork\\C#\\ParserTest\\TestParser\\TestParser.csproj",
   "expectedPackageFiles": [
     "C:\\Users\\Artem\\.nuget\\packages\\coverlet.collector\\6.0.0\\coverlet.collector.6.0.0.nupkg.sha512",
     "C:\\Users\\Artem\\.nuget\\packages\\microsoft.codecoverage\\17.8.0\\microsoft.codecoverage.17.8.0.nupkg.sha512",
