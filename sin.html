@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Интеграл и производная</title>
+    <style>
+        canvas {
+            display: block;
+            margin: 0 auto;
+            background-color: white; 
+        }
+    </style>
+</head>
+<body>
+    <canvas id="canvas" width="800" height="400"></canvas>
+    <script>
+        const canvas = document.getElementById('canvas');
+        const ctx = canvas.getContext('2d');
+        var ct = canvas.getContext("2d");
+        ct.fillStyle = "red";
+        ct.fillRect(50, 10, 100, 100);
+
+        const width = canvas.width;
+        const height = canvas.height;
+        const step = 0.4;
+        const scaleX = 20;
+        const scaleY = 30;
+        const startPos = -120;
+        const endPos = 120;
+
+        
+        function transformX(x) {
+            return width / 2 + x * scaleX;
+        }
+
+        function transformY(y) {
+            return height / 2 - y * scaleY;
+        }
+        function generateValues() {
+            const values = [];
+            for (let x = startPos; x <= endPos; x += step) {
+                values.push({ x, y: Math.sin(x) + getRandomArbitrary()*0 });
+            }
+            return values;
+        }
+        
+        function getRandomArbitrary(min = -0.2, max = 0.2) {
+            return Math.random() * (max - min) + min;
+        }
+
+        function calculateIntegral(values) {
+            const integralValues = [];
+            let sum = 0;
+            for (const point of values) {
+                sum += point.y * step;
+                integralValues.push({ x: point.x, y: sum });
+            }
+            return integralValues;
+        }
+        
+        function calculateDerivative(values) {
+            const derivativeValues = [];
+            for (let i = 1; i < values.length; i++) {
+                const x = values[i].x;
+                const dy = (values[i].y - values[i - 1].y) / step;
+            derivativeValues.push({ x, y: dy });
+            }
+            return derivativeValues;
+        }
+
+        function drawAxes() {
+            ctx.beginPath();
+            ctx.moveTo(0, height / 2);
+            ctx.lineTo(width, height / 2);
+            ctx.strokeStyle = 'black';
+            ctx.stroke();
+
+            ctx.beginPath();
+            ctx.moveTo(width / 2, 0);
+            ctx.lineTo(width / 2, height);
+            ctx.stroke();
+
+            ctx.font = '16px Arial bold';
+            ctx.fillText('X', width - 20, height / 2 + 15);
+            ctx.fillText('0', width / 2 + 5, height / 2 + 15);
+            ctx.fillText('Y', width / 2 + 5, 20);
+        }
+
+        function drawLineWithPoints(ctx, x1, y1, x2, y2) {
+            const dx = Math.abs(x2 - x1);
+            const dy = Math.abs(y2 - y1);
+            const sx = (x1 < x2) ? 1 : -1;
+            const sy = (y1 < y2) ? 1 : -1;
+            let err = dx - dy;
+
+            while (true) {
+                ctx.fillRect(x1, y1, 1, 1);
+
+                if (x1 === x2 && y1 === y2) break;
+                const e2 = 2 * err;
+                if (e2 > -dy) {
+                    err -= dy;
+                    x1 += sx;
+                }
+                if (e2 < dx) {
+                    err += dx;
+                    y1 += sy;
+                }
+            }
+        }
+
+        function drawSineWave(ctx, values) {
+            ctx.beginPath();
+            ctx.moveTo(transformX(values[0].x), transformY(values[0].y));
+            for (const point of values) {
+                ctx.lineTo(transformX(point.x), transformY(point.y));
+            }   
+            ctx.strokeStyle = 'green';
+            ctx.lineWidth = 1.5;
+            ctx.stroke();
+        }
+
+        function drawIntegral(ctx, values) {
+            ctx.beginPath();
+            ctx.moveTo(transformX(values[0].x), transformY(values[0].y));
+            for (const point of values) {
+                ctx.lineTo(transformX(point.x), transformY(point.y));
+            }
+            ctx.strokeStyle = 'orange';
+            ctx.lineWidth = 1.5;
+            ctx.stroke();
+        }
+
+        function drawDerivative(ctx, values) {
+            ctx.beginPath();
+            ctx.moveTo(transformX(values[0].x), transformY(values[0].y));
+            for (const point of values) {
+                ctx.lineTo(transformX(point.x), transformY(point.y));
+            }
+            ctx.strokeStyle = 'red';
+            ctx.lineWidth = 1.5;
+            ctx.stroke();
+        }
+        
+        const Values = generateValues();
+        const integralValues = calculateIntegral(Values);
+        const derivativeValues = calculateDerivative(Values);
+        
+        drawAxes();
+        drawLineWithPoints(ctx, 187, 220, 480, 60);
+        drawSineWave(ctx, Values);
+        drawIntegral(ctx, integralValues);
+        drawDerivative(ctx, derivativeValues);
+        
+    </script>
+</body>
+</html>
